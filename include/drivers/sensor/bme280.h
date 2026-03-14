@@ -1,0 +1,77 @@
+#ifndef BME280_H_
+#define BME280_H_
+
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/i2c.h>
+
+/* Register addresses */
+#define BME280_REG_ID           0xD0
+#define BME280_REG_RESET        0xE0
+#define BME280_REG_CTRL_HUM     0xF2
+#define BME280_REG_STATUS       0xF3
+#define BME280_REG_CTRL_MEAS    0xF4
+#define BME280_REG_CONFIG       0xF5
+#define BME280_REG_PRESS_MSB    0xF7
+#define BME280_REG_ADC_PRES     0xF7
+#define BME280_REG_ADC_TEMP     0xFA
+#define BME280_REG_ADC_HUM      0xFD
+
+#define BME280_CHIP_ID          0x60
+#define BME280_SOFT_RESET_CODE  0xB9
+
+/* Compensation calibration data */
+struct bme280_calib_data {
+	uint16_t dig_T1;
+	int16_t dig_T2;
+	int16_t dig_T3;
+	uint16_t dig_P1;
+	int16_t dig_P2;
+	int16_t dig_P3;
+	int16_t dig_P4;
+	int16_t dig_P5;
+	int16_t dig_P6;
+	int16_t dig_P7;
+	int16_t dig_P8;
+	int16_t dig_P9;
+	uint8_t dig_H1;
+	int16_t dig_H2;
+	uint8_t dig_H3;
+	int16_t dig_H4;
+	int16_t dig_H5;
+	int8_t dig_H6;
+	int32_t t_fine;
+};
+
+struct bme280_config {
+	struct i2c_dt_spec i2c;
+	uint8_t chip_id;
+};
+
+struct bme280_data {
+	struct bme280_calib_data calib;
+	struct sensor_value temperature;
+	struct sensor_value humidity;
+	struct sensor_value pressure;
+	bool initialized;
+#if CONFIG_BME280_MODE_CONTINUOUS
+	struct k_thread acq_thread;
+#endif
+};
+
+enum bme280_channel {
+	BME280_CHAN_TEMP   = SENSOR_CHAN_AMBIENT_TEMP,
+	BME280_CHAN_HUM    = SENSOR_CHAN_HUMIDITY,
+	BME280_CHAN_PRESS  = SENSOR_CHAN_PRESS,
+};
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int bme280_runtime_start(const struct device *dev);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* BME280_H_ */

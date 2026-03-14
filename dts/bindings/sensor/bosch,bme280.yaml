@@ -1,0 +1,2 @@
+description: Bosch BME280 environmental sensor base properties
+include: base.yaml
