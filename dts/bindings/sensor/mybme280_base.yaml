@@ -1,0 +1,2 @@
+description: Bosch BME280 environmental sensor base properties (custom off-tree driver)
+include: base.yaml
