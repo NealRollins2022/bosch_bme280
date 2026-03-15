@@ -1,5 +1,5 @@
-config BME280
-	bool "Enable Bosch BME280 environmental sensor driver"
+config MYBME280
+	bool "Enable Bosch BME280 environmental sensor driver (Custom Off-Tree)"
 	select SENSOR
 	select LOG
 	select I2C
@@ -8,14 +8,15 @@ config BME280
 	help
 	  Bosch BME280 I2C environmental sensor driver.
 	  Provides temperature, humidity, and pressure measurements.
+	  Custom off-tree driver to avoid conflicts with built-in BME280.
 
-if BME280
+if MYBME280
 
-choice BME280_TRANSPORT
+choice BOSCH_BME280_TRANSPORT
 	prompt "Telemetry transport"
-	default BME280_TRANSPORT_MATTER
+	default BOSCH_BME280_TRANSPORT_MATTER
 
-config BME280_TRANSPORT_MATTER
+config MYBME280_TRANSPORT_MATTER
 	bool "Matter/CHIP (network)"
 	select NET_IPV6
 	select NET_UDP
@@ -23,77 +24,77 @@ config BME280_TRANSPORT_MATTER
 	help
 	  Send telemetry via Matter/Thread when network ready.
 
-config BME280_TRANSPORT_SERIAL
+config MYBME280_TRANSPORT_SERIAL
 	bool "Serial/UART (debug)"
 	help
 	  Output readings to UART.
 
 endchoice
 
-choice BME280_MODE
+choice BOSCH_BME280_MODE
 	prompt "Measurement mode"
-	default BME280_MODE_CONTINUOUS
+	default BOSCH_BME280_MODE_CONTINUOUS
 
-config BME280_MODE_CONTINUOUS
+config MYBME280_MODE_CONTINUOUS
 	bool "Continuous (driver thread polls sensor)"
 	help
 	  Driver thread reads sensor at interval.
-	  Stores readings; signals bme280_data_ready_sem.
+	  Stores readings; signals bosch_bme280_data_ready_sem.
 
-config BME280_MODE_ON_DEMAND
+config MYBME280_MODE_ON_DEMAND
 	bool "On-demand (app polls sensor)"
 	help
 	  Application calls sensor_sample_fetch() when needed.
 
 endchoice
 
-config BME280_MEASUREMENT_INTERVAL_MS
+config MYBME280_MEASUREMENT_INTERVAL_MS
 	int "Measurement interval (ms)"
 	default 10000
 
-config BME280_I2C_READ_TIMEOUT_MS
+config MYBME280_I2C_READ_TIMEOUT_MS
 	int "I2C read timeout (ms)"
 	default 2000
-	depends on BME280_MODE_ON_DEMAND
+	depends on BOSCH_BME280_MODE_ON_DEMAND
 
-config BME280_RETRY_COUNT
+config MYBME280_RETRY_COUNT
 	int "I2C read retry count"
 	default 5
 
-config BME280_RETRY_DELAY_MS
+config MYBME280_RETRY_DELAY_MS
 	int "Retry delay (ms)"
 	default 200
 
-config BME280_INIT_PRIORITY
+config MYBME280_INIT_PRIORITY
 	int "Device init priority"
 	default 85
 
-config BME280_ACQ_THREAD_STACK_SIZE
+config MYBME280_ACQ_THREAD_STACK_SIZE
 	int "Acquisition thread stack (bytes)"
 	default 2048
-	depends on BME280_MODE_CONTINUOUS
+	depends on BOSCH_BME280_MODE_CONTINUOUS
 
-config BME280_ACQ_THREAD_PRIORITY
+config MYBME280_ACQ_THREAD_PRIORITY
 	int "Acquisition thread priority"
 	default 11
-	depends on BME280_MODE_CONTINUOUS
+	depends on BOSCH_BME280_MODE_CONTINUOUS
 
-config BME280_OVERSAMPLE_TEMP
+config MYBME280_OVERSAMPLE_TEMP
 	int "Temperature oversampling (1/2/4/8/16)"
 	default 2
 	range 1 16
 
-config BME280_OVERSAMPLE_PRESS
+config MYBME280_OVERSAMPLE_PRESS
 	int "Pressure oversampling (1/2/4/8/16)"
 	default 2
 	range 1 16
 
-config BME280_OVERSAMPLE_HUM
+config MYBME280_OVERSAMPLE_HUM
 	int "Humidity oversampling (1/2/4/8/16)"
 	default 2
 	range 1 16
 
-config BME280_I2C_ADDR_ALT
+config MYBME280_I2C_ADDR_ALT
 	bool "Use alternate I2C address (0x77 instead of 0x76)"
 	default n
 	help
