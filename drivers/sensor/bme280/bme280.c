@@ -1,4 +1,4 @@
-#define DT_DRV_COMPAT bosch_mybme280_custom
+#define DT_DRV_COMPAT bosch_bme280_custom
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
@@ -329,7 +329,7 @@ static const struct sensor_driver_api bme280_api = {
 	.channel_get = bme280_channel_get,
 };
 
-#define BME280_DEFINE(inst) \
+#define BME280_CUSTOM_DEFINE(inst) \
 	static struct bme280_data bme280_data_##inst; \
 	static const struct bme280_config bme280_config_##inst = { \
 		.i2c = I2C_DT_SPEC_GET(DT_INST_PARENT(inst)), \
@@ -342,4 +342,4 @@ static const struct sensor_driver_api bme280_api = {
 	                              CONFIG_MYBME280_INIT_PRIORITY, \
 	                              &bme280_api);
 
-DT_INST_FOREACH_STATUS_OKAY(BME280_DEFINE)
+DT_INST_FOREACH_STATUS_OKAY(BME280_CUSTOM_DEFINE)
