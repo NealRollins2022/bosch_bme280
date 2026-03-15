@@ -12,9 +12,9 @@ config MYBME280
 
 if MYBME280
 
-choice BOSCH_BME280_TRANSPORT
+choice MYBME280_TRANSPORT
 	prompt "Telemetry transport"
-	default BOSCH_BME280_TRANSPORT_MATTER
+	default MYBME280_TRANSPORT_MATTER
 
 config MYBME280_TRANSPORT_MATTER
 	bool "Matter/CHIP (network)"
@@ -31,15 +31,15 @@ config MYBME280_TRANSPORT_SERIAL
 
 endchoice
 
-choice BOSCH_BME280_MODE
+choice MYBME280_MODE
 	prompt "Measurement mode"
-	default BOSCH_BME280_MODE_CONTINUOUS
+	default MYBME280_MODE_CONTINUOUS
 
 config MYBME280_MODE_CONTINUOUS
 	bool "Continuous (driver thread polls sensor)"
 	help
 	  Driver thread reads sensor at interval.
-	  Stores readings; signals bosch_bme280_data_ready_sem.
+	  Stores readings; signals mybme280_data_ready_sem.
 
 config MYBME280_MODE_ON_DEMAND
 	bool "On-demand (app polls sensor)"
@@ -55,7 +55,7 @@ config MYBME280_MEASUREMENT_INTERVAL_MS
 config MYBME280_I2C_READ_TIMEOUT_MS
 	int "I2C read timeout (ms)"
 	default 2000
-	depends on BOSCH_BME280_MODE_ON_DEMAND
+	depends on MYBME280_MODE_ON_DEMAND
 
 config MYBME280_RETRY_COUNT
 	int "I2C read retry count"
@@ -72,12 +72,12 @@ config MYBME280_INIT_PRIORITY
 config MYBME280_ACQ_THREAD_STACK_SIZE
 	int "Acquisition thread stack (bytes)"
 	default 2048
-	depends on BOSCH_BME280_MODE_CONTINUOUS
+	depends on MYBME280_MODE_CONTINUOUS
 
 config MYBME280_ACQ_THREAD_PRIORITY
 	int "Acquisition thread priority"
 	default 11
-	depends on BOSCH_BME280_MODE_CONTINUOUS
+	depends on MYBME280_MODE_CONTINUOUS
 
 config MYBME280_OVERSAMPLE_TEMP
 	int "Temperature oversampling (1/2/4/8/16)"
