@@ -1,13 +1,12 @@
-# C:/ncs/v3.2.0/modules/bosch_bme280/CMakeLists.txt
 
-if(CONFIG_BME280)
+if(CONFIG_MYBME280)
 
   target_include_directories(zephyr_interface BEFORE INTERFACE
     ${ZEPHYR_CURRENT_MODULE_DIR}/include
   )
 
   zephyr_library_sources_ifdef(
-    CONFIG_BME280
+    CONFIG_MYBME280
     drivers/sensor/bme280/bme280.c
     drivers/sensor/bme280/bme280_i2c.c
   )
