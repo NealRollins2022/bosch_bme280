@@ -1,0 +1,4 @@
+name: custom_bme280
+build:
+  cmake: .
+  kconfig: Kconfig
