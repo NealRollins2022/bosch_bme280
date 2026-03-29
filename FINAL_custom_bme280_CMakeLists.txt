@@ -1,0 +1,11 @@
+if(CONFIG_CUSTOM_BME280)
+
+  target_include_directories(zephyr_interface BEFORE INTERFACE
+    ${ZEPHYR_CURRENT_MODULE_DIR}/include
+  )
+
+  zephyr_library_sources(
+    drivers/sensor/custom_bme280/custom_bme280.c
+  )
+
+endif()

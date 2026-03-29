@@ -1,0 +1,50 @@
+config CUSTOM_BME280
+	bool "Enable Bosch BME280 environmental sensor driver (Custom Off-Tree)"
+	select SENSOR
+	select LOG
+	select I2C
+	select I2C_NRFX
+	default n
+	help
+	  Bosch BME280 I2C environmental sensor driver (custom off-tree).
+	  Provides temperature, humidity, and pressure measurements.
+
+if CUSTOM_BME280
+
+config CUSTOM_BME280_TRANSPORT_MATTER
+	bool "Transport sensor data via Matter cluster"
+	default y
+
+config CUSTOM_BME280_MODE_CONTINUOUS
+	bool "Use continuous measurement mode"
+	default y
+
+config CUSTOM_BME280_MEASUREMENT_INTERVAL_MS
+	int "Measurement interval in milliseconds"
+	default 10000
+
+config CUSTOM_BME280_ACQ_THREAD_PRIORITY
+	int "Acquisition thread priority"
+	default 11
+
+config CUSTOM_BME280_ACQ_THREAD_STACK_SIZE
+	int "Acquisition thread stack size"
+	default 2048
+
+config CUSTOM_BME280_OVERSAMPLE_TEMP
+	int "Temperature oversampling (1-5)"
+	default 2
+
+config CUSTOM_BME280_OVERSAMPLE_PRESS
+	int "Pressure oversampling (1-5)"
+	default 2
+
+config CUSTOM_BME280_OVERSAMPLE_HUM
+	int "Humidity oversampling (1-5)"
+	default 2
+
+config CUSTOM_BME280_INIT_PRIORITY
+	int "Initialization priority"
+	default 90
+
+endif # CUSTOM_BME280
