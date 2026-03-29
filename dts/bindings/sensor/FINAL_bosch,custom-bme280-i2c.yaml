@@ -1,0 +1,7 @@
+description: Bosch BME280 environmental sensor (I2C mode, custom off-tree)
+
+compatible: "bosch,custom-bme280"
+
+include: bosch,custom-bme280.yaml
+
+on-bus: i2c
